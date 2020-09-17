@@ -1,23 +1,33 @@
 package com.example.homeworkthirdcourse
 
+import android.app.Application
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     var action: Int? = 0
     var firstNumber: Int = 0
     var secondNumber: Int = 0
+    private lateinit var themeSharedPreferences: ThemeSharedPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        setDefaultNightMode(themeSharedPreferences.appTheme)
         btn_change_theme.setOnClickListener{
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            } else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                themeSharedPreferences.appTheme = AppCompatDelegate.MODE_NIGHT_NO
+            } else {
+                setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                themeSharedPreferences.appTheme = AppCompatDelegate.MODE_NIGHT_YES
+            }
         }
 
         btn_plus.setOnClickListener{
@@ -68,8 +78,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        themeSharedPreferences = ThemeSharedPreference(context)
+        return super.onCreateView(name, context, attrs)
+    }
+
     private fun plusCall(firstNumber: Int, secondNumber: Int) = firstNumber.plus(secondNumber)
     private fun minusCall(firstNumber: Int, secondNumber: Int) = firstNumber.minus(secondNumber)
     private fun multiplyCall(firstNumber: Int, secondNumber: Int) = firstNumber * secondNumber
     private fun divideCall(firstNumber: Int, secondNumber: Int) = firstNumber / secondNumber
+
+    fun setAppTheme(theme: Int) {
+        themeSharedPreferences.appTheme = theme
+    }
+
+    fun getAppTheme() = themeSharedPreferences.appTheme
 }
