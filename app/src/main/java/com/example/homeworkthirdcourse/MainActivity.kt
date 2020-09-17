@@ -94,10 +94,4 @@ class MainActivity : AppCompatActivity() {
         } else return "На 0 делить нельзя"
 
     }
-
-//    fun setAppTheme(theme: Int) {
-//        themeSharedPreferences.appTheme = theme
-//    }
-//
-//    fun getAppTheme() = themeSharedPreferences.appTheme
 }
