@@ -1,15 +1,15 @@
 package com.example.homeworkthirdcourse
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 
 class ThemeSharedPreference(
     context: Context
 ) {
-
     companion object {
-        private const val SHARED_PREFERENCE_NAME_APP_THEME = "App_theme"
-        private const val KEY_THEME = "theme"
-        private const val DEFAULT_THEME_ID = 1
+        private const val SHARED_PREFERENCE_NAME_APP_THEME = "HomeworkApp"
+        private const val KEY_THEME = "Theme"
+        private const val DEFAULT_THEME_ID = AppCompatDelegate.MODE_NIGHT_NO
     }
 
     private val sharedPreference =
