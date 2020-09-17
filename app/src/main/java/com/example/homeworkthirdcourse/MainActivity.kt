@@ -70,10 +70,12 @@ class MainActivity : AppCompatActivity() {
                     1 -> tv_result.text = plusCall(firstNumber, secondNumber).toString()
                     2 -> tv_result.text = minusCall(firstNumber, secondNumber).toString()
                     3 -> tv_result.text = multiplyCall(firstNumber, secondNumber).toString()
-                    4 -> tv_result.text = divideCall(firstNumber, secondNumber).toString()
+                    4 -> tv_result.text = divideCall(firstNumber, secondNumber)
                 }
                 action = 0
-                firstNumber = Integer.parseInt(tv_result.text.toString())
+                if (!tv_result.text.toString().equals("На 0 делить нельзя")) {
+                    firstNumber = Integer.parseInt(tv_result.text.toString())
+                } else firstNumber = 0
             }
         }
     }
@@ -86,11 +88,16 @@ class MainActivity : AppCompatActivity() {
     private fun plusCall(firstNumber: Int, secondNumber: Int) = firstNumber.plus(secondNumber)
     private fun minusCall(firstNumber: Int, secondNumber: Int) = firstNumber.minus(secondNumber)
     private fun multiplyCall(firstNumber: Int, secondNumber: Int) = firstNumber * secondNumber
-    private fun divideCall(firstNumber: Int, secondNumber: Int) = firstNumber / secondNumber
+    private fun divideCall(firstNumber: Int, secondNumber: Int):String {
+        if (secondNumber != 0) {
+            return (firstNumber / secondNumber).toString()
+        } else return "На 0 делить нельзя"
 
-    fun setAppTheme(theme: Int) {
-        themeSharedPreferences.appTheme = theme
     }
 
-    fun getAppTheme() = themeSharedPreferences.appTheme
+//    fun setAppTheme(theme: Int) {
+//        themeSharedPreferences.appTheme = theme
+//    }
+//
+//    fun getAppTheme() = themeSharedPreferences.appTheme
 }
