@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                     4 -> tv_result.text = divideCall(firstNumber, secondNumber)
                 }
                 action = 0
-                if (!tv_result.text.toString().equals("На 0 делить нельзя")) {
+                if (tv_result.text.toString() != "На 0 делить нельзя") {
                     firstNumber = Integer.parseInt(tv_result.text.toString())
                 } else firstNumber = 0
             }
