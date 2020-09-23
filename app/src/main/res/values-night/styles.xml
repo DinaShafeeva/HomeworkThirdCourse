@@ -3,6 +3,6 @@
     <style name="Theme.HomeworkThirdCourse.Base" parent="Theme.MaterialComponents.DayNight">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">#5E4703</item>
     </style>
 </resources>

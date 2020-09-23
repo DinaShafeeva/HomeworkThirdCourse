@@ -1,9 +1,7 @@
 <resources>
-    <style parent="Theme.HomeworkThirdCourse.Base" name="AppTheme">
-    <!-- Customize your theme here. -->
-    </style>
 
-    <style parent="Theme.MaterialComponents.DayNight" name="Theme.HomeworkThirdCourse.Base">
+
+    <style name="Theme.HomeworkThirdCourse.Base" parent="Theme.MaterialComponents.DayNight">
     <item name="colorPrimary">@color/colorPrimary</item>
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     <item name="colorAccent">@color/colorAccent</item>

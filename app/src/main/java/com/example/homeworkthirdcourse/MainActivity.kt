@@ -14,19 +14,21 @@ class MainActivity : AppCompatActivity() {
     var action: Int? = 0
     var firstNumber: Int = 0
     var secondNumber: Int = 0
-    private lateinit var themeSharedPreferences: ThemeSharedPreference
+    private val KEY_THEME = "Theme"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setDefaultNightMode(themeSharedPreferences.appTheme)
+        val themeSharedPreferences = this.getPreferences(Context.MODE_PRIVATE)
+
         btn_change_theme.setOnClickListener{
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                 setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                themeSharedPreferences.appTheme = AppCompatDelegate.MODE_NIGHT_NO
+                themeSharedPreferences.edit().putInt(KEY_THEME, AppCompatDelegate.MODE_NIGHT_NO).apply()
             } else {
                 setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                themeSharedPreferences.appTheme = AppCompatDelegate.MODE_NIGHT_YES
+                themeSharedPreferences.edit().putInt(KEY_THEME, AppCompatDelegate.MODE_NIGHT_YES).apply()
             }
         }
 
@@ -81,7 +83,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-        themeSharedPreferences = ThemeSharedPreference(context)
+        val themeSharedPreferences = this.getPreferences(Context.MODE_PRIVATE)
+        setDefaultNightMode(themeSharedPreferences.getInt(KEY_THEME,1))
         return super.onCreateView(name, context, attrs)
     }
 
@@ -92,6 +95,5 @@ class MainActivity : AppCompatActivity() {
         if (secondNumber != 0) {
             return (firstNumber / secondNumber).toString()
         } else return "На 0 делить нельзя"
-
     }
 }
