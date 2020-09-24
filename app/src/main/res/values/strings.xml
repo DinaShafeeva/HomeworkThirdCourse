@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HomeworkThirdCourse</string>
+    <string name="buy_with_googlepay_button_content_description">Buy with Google Pay</string>
 </resources>
