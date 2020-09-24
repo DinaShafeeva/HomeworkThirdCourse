@@ -1,11 +1,8 @@
 package com.example.homeworkthirdcourse
 
 import android.app.Activity
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.wallet.IsReadyToPayRequest
 import com.google.android.gms.wallet.PaymentsClient
 import com.google.android.gms.wallet.Wallet
-import com.google.android.gms.wallet.Wallet.WalletOptions
 import com.google.android.gms.wallet.WalletConstants
 import org.json.JSONArray
 import org.json.JSONException
@@ -47,7 +44,6 @@ object PaymentsUtil {
             "publicKey" to DIRECT_TOKENIZATION_PUBLIC_KEY
         )
         val MICROS = BigDecimal(1000000.0)
-
 
     private val baseRequest = JSONObject().apply {
         put("apiVersion", 2)
@@ -137,8 +133,6 @@ object PaymentsUtil {
                 put("transactionInfo", getTransactionInfo(price))
                 put("merchantInfo", merchantInfo)
 
-                // An optional shipping address requirement is a top-level property of the
-                // PaymentDataRequest JSON object.
                 val shippingAddressParameters = JSONObject().apply {
                     put("phoneNumberRequired", false)
                     put("allowedCountryCodes", JSONArray(SHIPPING_SUPPORTED_COUNTRIES))

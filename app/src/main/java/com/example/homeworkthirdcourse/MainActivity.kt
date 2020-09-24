@@ -27,8 +27,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize a Google Pay API client for an environment suitable for testing.
-        // It's recommended to create the PaymentsClient object inside of the onCreate method.
         paymentsClient = PaymentsUtil.createPaymentsClient(this)
         possiblyShowGooglePayButton()
 
@@ -40,14 +38,11 @@ class MainActivity : AppCompatActivity() {
         val isReadyToPayJson = PaymentsUtil.isReadyToPayRequest() ?: return
         val request = IsReadyToPayRequest.fromJson(isReadyToPayJson.toString()) ?: return
 
-        // The call to isReadyToPay is asynchronous and returns a Task. We need to provide an
-        // OnCompleteListener to be triggered when the result of the call is known.
         val task = paymentsClient.isReadyToPay(request)
         task.addOnCompleteListener { completedTask ->
             try {
                 completedTask.getResult(ApiException::class.java)?.let(::setGooglePayAvailable)
             } catch (exception: ApiException) {
-                // Process error
                 Log.w("isReadyToPay failed", exception)
             }
         }
@@ -68,11 +63,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun requestPayment() {
 
-        // Disables the button to prevent multiple clicks.
         googlePayButton.isClickable = false
 
-        // The price provided to the API should include taxes and shipping.
-        // This price is not displayed to the user.
         val garmentPriceMicros = (0.000001 * 1).roundToLong()
         val price = (garmentPriceMicros + shippingCost).microsToString()
 
@@ -83,9 +75,6 @@ class MainActivity : AppCompatActivity() {
         }
         val request = PaymentDataRequest.fromJson(paymentDataRequestJson.toString())
 
-        // Since loadPaymentData may show the UI asking the user to select a payment method, we use
-        // AutoResolveHelper to wait for the user interacting with it. Once completed,
-        // onActivityResult will be called with the result.
         if (request != null) {
             AutoResolveHelper.resolveTask(
                 paymentsClient.loadPaymentData(request), this, LOAD_PAYMENT_DATA_REQUEST_CODE
@@ -98,7 +87,6 @@ class MainActivity : AppCompatActivity() {
         Log.e("requestCode", requestCode.toString())
         Log.e("resultCode", resultCode.toString())
         when (requestCode) {
-            // value passed in AutoResolveHelper
             LOAD_PAYMENT_DATA_REQUEST_CODE -> {
                 when (resultCode) {
                     Activity.RESULT_OK ->
@@ -118,7 +106,6 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
-                // Re-enables the Google Pay payment button.
                 googlePayButton.isClickable = true
             }
         }
@@ -128,12 +115,9 @@ class MainActivity : AppCompatActivity() {
         val paymentInformation = paymentData.toJson() ?: return
 
         try {
-            // Token will be null if PaymentDataRequest was not constructed using fromJson(String).
             val paymentMethodData =
                 JSONObject(paymentInformation).getJSONObject("paymentMethodData")
 
-            // If the gateway is set to "example", no payment information is returned - instead, the
-            // token will only consist of "examplePaymentMethodToken".
             if (paymentMethodData
                     .getJSONObject("tokenizationData")
                     .getString("type") == "PAYMENT_GATEWAY" && paymentMethodData
