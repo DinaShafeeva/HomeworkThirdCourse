@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">HomeworkThirdCourse</string>
+    <string name="plus">+</string>
+    <string name="equal">=</string>
+    <string name="third_field">Third field</string>
+    <string name="second_field">Second field</string>
+    <string name="first_field">First field</string>
+    <string name="first_field">First field</string>
 </resources>
