@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HomeworkThirdCourse</string>
+    <string name="showAndHide">Покажи/Уйди</string>
+    <string name="hello">Попался!</string>
 </resources>
