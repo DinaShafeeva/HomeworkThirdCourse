@@ -8,7 +8,7 @@ class MainActivityReducer {
         return when (action) {
             is CalculateStarted -> state.copy(isCalculateLoading = true)
             is CalculateSuccess -> state.copy(isCalculateLoading = false, firstField = action.fieldFirst, secondField = action.fieldSecond, thirdField = action.fieldThird)
-            is Calculate -> state
+            is Calculate -> state.copy(firstField = null, secondField = null, thirdField = null)
             is CalculateError -> state.copy(isCalculateLoading = false)
         }
     }

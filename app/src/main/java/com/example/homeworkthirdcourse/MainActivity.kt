@@ -48,29 +48,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupTextChangedListeners() {
         et_first.doAfterTextChanged { text ->
-            if ((et_second.text.toString() != "") || (et_third.text.toString() != "")) {
-                 if (text.isNullOrEmpty())updateValues(0, "0")
-                 else updateValues(0, text.toString())
-            }
+            updateValues(0, text.toString())
         }
 
         et_second.doAfterTextChanged { text ->
-            if ((et_first.text.toString() != "") || (et_third.text.toString() != "")) {
-                  if (text.isNullOrEmpty()) updateValues(1, "0")
-                  else updateValues(1, text.toString())
-            }
+            updateValues(1, text.toString())
         }
 
         et_third.doAfterTextChanged { text ->
-            if ((et_first.text.toString() != "") || (et_second.text.toString() != "")) {
-                if (text.isNullOrEmpty()) updateValues(2, "0")
-                else updateValues(2, text.toString())
-            }
+            updateValues(2, text.toString())
         }
     }
 
     private fun updateValues(int: Int, string: String) {
-        if (TAG != TAG_SYSTEM) {
+        if (TAG != TAG_SYSTEM && string != "-" && string != "") {
             map[int] = string
             store.actionRelay.onNext(
                 MainActivityAction.Calculate(map)
@@ -80,22 +71,32 @@ class MainActivity : AppCompatActivity() {
 
     private fun render(state: MainActivityState) {
         TAG = TAG_SYSTEM
-        if (et_first.text.toString() != state.firstField) {
-            et_first.setText(state.firstField)
+        state.firstField?.let {
+            if (et_first.text.toString() != state.firstField && state.firstField != "") {
+                et_first.setText(state.firstField)
+            }
         }
-        if (et_second.text.toString() != state.secondField) {
-            et_second.setText(state.secondField)
+        state.secondField?.let {
+            if (et_second.text.toString() != state.secondField && state.secondField != "") {
+                et_second.setText(state.secondField)
+            }
         }
-        if (et_third.text.toString() != state.thirdField) {
-            et_third.setText(state.thirdField)
+        state.thirdField?.let{
+            if (et_third.text.toString() != state.thirdField && state.thirdField != "") {
+                et_third.setText(state.thirdField)
+            }
         }
-        progressBar.isVisible = state.isCalculateLoading
         TAG = TAG_EMPTY
+        progressBar.isVisible = state.isCalculateLoading
     }
 
     private fun renderNews(news: MainActivityNews) {
-        when (news){
-            is MainActivityNews.ShowComputationError -> Toast.makeText(this, news.error, LENGTH_LONG).show()
+        when (news) {
+            is MainActivityNews.ShowComputationError -> Toast.makeText(
+                this,
+                news.error,
+                LENGTH_LONG
+            ).show()
         }
     }
 }
