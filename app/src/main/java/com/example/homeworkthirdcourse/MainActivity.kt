@@ -1,5 +1,6 @@
 package com.example.homeworkthirdcourse
 
+import CalculateSideEffect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -10,7 +11,6 @@ import com.example.homeworkthirdcourse.store.MainActivityAction
 import com.example.homeworkthirdcourse.store.MainActivityNews
 import com.example.homeworkthirdcourse.store.MainActivityState
 import com.example.homeworkthirdcourse.store.MainActivityStore
-import com.example.homeworkthirdcourse.store.side_effects.CalculateSideEffect
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*

@@ -1,8 +1,5 @@
 package com.example.homeworkthirdcourse
 
-import io.reactivex.Single
-import java.util.concurrent.TimeUnit
-
 class CalculateApi {
 
     fun writeFirst(second: Int, third: Int): String {
