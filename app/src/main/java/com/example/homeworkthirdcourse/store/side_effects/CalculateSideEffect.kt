@@ -1,4 +1,7 @@
+package com.example.homeworkthirdcourse.store.side_effects
+
 import com.example.homeworkthirdcourse.CalculateApi
+import com.example.homeworkthirdcourse.MainActivity
 import com.example.homeworkthirdcourse.store.*
 import com.example.homeworkthirdcourse.store.side_effects.MainActivitySideEffect
 import com.freeletics.rxredux.StateAccessor
@@ -23,7 +26,7 @@ class CalculateSideEffect(
     ): Observable<out MainActivityAction> {
         return actions.ofType<MainActivityAction.Calculate>()
             .switchMap { action ->
-                getField(action.map)
+                getField(action.field, action.index)
                     .map<MainActivityAction> {
                         MainActivityAction.CalculateSuccess(
                             it[0],
@@ -46,111 +49,109 @@ class CalculateSideEffect(
             }
     }
 
-    private fun getField(fieldMap: Map<Int, String>): Single<MutableMap<Int, String>> {
+    private fun getField(string: String, int: Int): Single<MutableMap<Int, String>> {
 //первый элемент
-        if (fieldMap[0] != oldMap[0]) {
-            fieldMap[0]?.let { oldMap.put(0, it) }
+        if (int == 0) {
+            oldMap[0] = string
             return when (index){
                 0 -> {
                     if (preIndex == 1){
-                        oldMap[2] = calculateApi.writeThird((fieldMap[0] ?: error("0")).toInt(), (fieldMap[1] ?: error("0")).toInt())
+                        oldMap[2] = calculateApi.writeThird((string).toInt(), (oldMap[1] ?: error("0")).toInt())
                     } else {
                         oldMap[1] =
-                            calculateApi.writeSecond((fieldMap[0] ?: error("0")).toInt(), (fieldMap[2] ?: error("0")).toInt())
+                            calculateApi.writeSecond(string.toInt(), (oldMap[2] ?: error("0")).toInt())
                     }
                     Single.just(oldMap).delay(5, TimeUnit.SECONDS)
                 }
                 1 -> {
                     oldMap[2] =
-                        calculateApi.writeThird((fieldMap[0] ?: error("0")).toInt(), (fieldMap[1] ?: error("0")).toInt())
+                        calculateApi.writeThird(string.toInt(), (oldMap[1] ?: error("0")).toInt())
                     preIndex = index
                     index = 0
                     Single.just(oldMap).delay(5, TimeUnit.SECONDS)
                 }
                 2 -> {
                     oldMap[1] =
-                        calculateApi.writeSecond((fieldMap[0] ?: error("0")).toInt(), (fieldMap[2] ?: error("0")).toInt())
+                        calculateApi.writeSecond(string.toInt(), (oldMap[2] ?: error("0")).toInt())
                     preIndex = index
                     index = 0
                     Single.just(oldMap).delay(5, TimeUnit.SECONDS)
                 }
                 else -> {
-                    fieldMap[0]?.let { oldMap.put(0, it) }
+                    oldMap[0] = string
                     oldMap[2] =
-                        calculateApi.writeThird((fieldMap[0] ?: error("0")).toInt(), (fieldMap[1] ?: error("0")).toInt())
+                        calculateApi.writeThird(string.toInt(), (oldMap[1] ?: error("0")).toInt())
                     index = 0
                     Single.just(oldMap).delay(5, TimeUnit.SECONDS)
                 }
             }
 //второй элемент
-        } else if (fieldMap[1] != oldMap[1]) {
-            fieldMap[1]?.let { oldMap.put(1, it) }
+        } else if (int == 1) {
+            oldMap[1] = string
             return when (index){
                 1 -> {
                     if (preIndex == 2){
                         oldMap[0] =
-                            calculateApi.writeFirst((fieldMap[1] ?: error("0")).toInt(), (fieldMap[2] ?: error("0")).toInt())
+                            calculateApi.writeFirst(string.toInt(), (oldMap[2] ?: error("0")).toInt())
                     } else {
                         oldMap[2] =
-                            calculateApi.writeThird((fieldMap[0] ?: error("0")).toInt(), (fieldMap[1] ?: error("0")).toInt())
+                            calculateApi.writeThird(string.toInt(), (oldMap[1] ?: error("0")).toInt())
                     }
                     Single.just(oldMap).delay(5, TimeUnit.SECONDS)
                 }
                 2 -> {
                     oldMap[0] =
-                        calculateApi.writeFirst((fieldMap[1] ?: error("0")).toInt(), (fieldMap[2] ?: error("0")).toInt())
+                        calculateApi.writeFirst(string.toInt(), (oldMap[2] ?: error("0")).toInt())
                     preIndex = index
                     index = 1
                     Single.just(oldMap).delay(5, TimeUnit.SECONDS)
                 }
                 0 -> {
                     oldMap[2] =
-                        calculateApi.writeThird((fieldMap[0] ?: error("0")).toInt(), (fieldMap[1] ?: error("0")).toInt())
+                        calculateApi.writeThird(string.toInt(), (oldMap[1] ?: error("0")).toInt())
                     preIndex = index
                     index = 1
                     Single.just(oldMap).delay(5, TimeUnit.SECONDS)
                 }
                 else -> {
-                    fieldMap[1]?.let { oldMap.put(1, it) }
+                    oldMap[1] = string
                     oldMap[2] =
-                        calculateApi.writeThird((fieldMap[0] ?: error("0")).toInt(), (fieldMap[1] ?: error("0")).toInt())
+                        calculateApi.writeThird(string.toInt(), (oldMap[1] ?: error("0")).toInt())
                     index = 1
                     Single.just(oldMap).delay(5, TimeUnit.SECONDS)
                 }
             }
         } else {
-            fieldMap[2]?.let { oldMap.put(2, it) }
+            oldMap[2] = string
             return when (index){
                 2 -> {
                     if (preIndex == 0){
                         oldMap[1] =
-                            calculateApi.writeSecond((fieldMap[0] ?: error("0")).toInt(), (fieldMap[2] ?: error("0")).toInt())
+                            calculateApi.writeSecond(string.toInt(), (oldMap[2] ?: error("0")).toInt())
                     } else {
                         oldMap[0] =
-                            calculateApi.writeFirst((fieldMap[1] ?: error("0")).toInt(), (fieldMap[2] ?: error("0")).toInt())
+                            calculateApi.writeFirst(string.toInt(), (oldMap[2] ?: error("0")).toInt())
                     }
                     Single.just(oldMap).delay(5, TimeUnit.SECONDS)
                 }
                 0 -> {
                     oldMap[1] =
-                        calculateApi.writeSecond((fieldMap[0] ?:
-
-                        error("0")).toInt(), (fieldMap[2] ?: error("0")).toInt())
+                        calculateApi.writeSecond(string.toInt(), (oldMap[2] ?: error("0")).toInt())
                     preIndex = index
                     index = 2
                     Single.just(oldMap).delay(5, TimeUnit.SECONDS)
                 }
                 1 -> {
                     oldMap[0] =
-                        calculateApi.writeFirst((fieldMap[1] ?: error("0")).toInt(), (fieldMap[2] ?: error("0")).toInt())
+                        calculateApi.writeFirst(string.toInt(), (oldMap[2] ?: error("0")).toInt())
                     preIndex = index
                     index = 2
                     Single.just(oldMap).delay(5, TimeUnit.SECONDS)
                 }
                 else -> {
-                    fieldMap[2]?.let { oldMap.put(2, it) }
+                    oldMap[2] = string
                     oldMap[1] =
-                        calculateApi.writeFirst((fieldMap[1] ?: error("0")).toInt(), (fieldMap[2] ?: error("0")).toInt())
+                        calculateApi.writeFirst(string.toInt(), (oldMap[2] ?: error("0")).toInt())
                     index = 2
                     Single.just(oldMap).delay(5, TimeUnit.SECONDS)
                 }

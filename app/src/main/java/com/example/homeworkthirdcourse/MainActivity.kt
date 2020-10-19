@@ -1,6 +1,5 @@
 package com.example.homeworkthirdcourse
 
-import CalculateSideEffect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -11,6 +10,7 @@ import com.example.homeworkthirdcourse.store.MainActivityAction
 import com.example.homeworkthirdcourse.store.MainActivityNews
 import com.example.homeworkthirdcourse.store.MainActivityState
 import com.example.homeworkthirdcourse.store.MainActivityStore
+import com.example.homeworkthirdcourse.store.side_effects.CalculateSideEffect
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,11 +25,11 @@ class MainActivity : AppCompatActivity() {
 
     private val store = MainActivityStore(
         listOf(
-            CalculateSideEffect(CalculateApi(), relay)),
+            CalculateSideEffect(CalculateApi(), relay)
+        ),
             relay
         )
 
-    var map: MutableMap<Int, String> = mutableMapOf(0 to "0", 1 to "0", 2 to "0")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,9 +62,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateValues(int: Int, string: String) {
         if (TAG != TAG_SYSTEM && string != "-" && string != "") {
-            map[int] = string
             store.actionRelay.onNext(
-                MainActivityAction.Calculate(map)
+                MainActivityAction.Calculate(string, int)
             )
         }
     }

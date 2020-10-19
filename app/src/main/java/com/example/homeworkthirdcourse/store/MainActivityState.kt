@@ -5,5 +5,4 @@ data class MainActivityState (
     val firstField: String? = null,
     val secondField: String? = null,
     val thirdField: String? = null
-        //индексы
 )
