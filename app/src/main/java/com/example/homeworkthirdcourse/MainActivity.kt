@@ -48,15 +48,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupTextChangedListeners() {
         et_first.doAfterTextChanged { text ->
-            updateValues(0, text.toString())
-        }
-
-        et_second.doAfterTextChanged { text ->
             updateValues(1, text.toString())
         }
 
-        et_third.doAfterTextChanged { text ->
+        et_second.doAfterTextChanged { text ->
             updateValues(2, text.toString())
+        }
+
+        et_third.doAfterTextChanged { text ->
+            updateValues(3, text.toString())
         }
     }
 

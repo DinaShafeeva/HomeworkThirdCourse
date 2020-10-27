@@ -16,17 +16,14 @@ class CalculateSideEffect(
     private val calculateApi: CalculateApi,
     private val newsRelay: Relay<MainActivityNews>
 ) :MainActivitySideEffect {
-    private var oldMap: MutableMap<Int, String> = mutableMapOf(0 to "0", 1 to "0", 2 to "0")
-    private var index: Int = -1
-    private var preIndex = -1
 
     override fun invoke(
         actions: Observable<MainActivityAction>,
         state: StateAccessor<MainActivityState>
     ): Observable<out MainActivityAction> {
         return actions.ofType<MainActivityAction.Calculate>()
-            .switchMap { action ->
-                getField(action.field, action.index)
+            .switchMap {
+                getField(state())
                     .map<MainActivityAction> {
                         MainActivityAction.CalculateSuccess(
                             it[0],
@@ -49,113 +46,51 @@ class CalculateSideEffect(
             }
     }
 
-    private fun getField(string: String, int: Int): Single<MutableMap<Int, String>> {
-//первый элемент
-        if (int == 0) {
-            oldMap[0] = string
-            return when (index){
-                0 -> {
-                    if (preIndex == 1){
-                        oldMap[2] = calculateApi.writeThird((string).toInt(), (oldMap[1] ?: error("0")).toInt())
-                    } else {
-                        oldMap[1] =
-                            calculateApi.writeSecond(string.toInt(), (oldMap[2] ?: error("0")).toInt())
-                    }
-                    Single.just(oldMap).delay(5, TimeUnit.SECONDS)
-                }
-                1 -> {
-                    oldMap[2] =
-                        calculateApi.writeThird(string.toInt(), (oldMap[1] ?: error("0")).toInt())
-                    preIndex = index
-                    index = 0
-                    Single.just(oldMap).delay(5, TimeUnit.SECONDS)
-                }
-                2 -> {
-                    oldMap[1] =
-                        calculateApi.writeSecond(string.toInt(), (oldMap[2] ?: error("0")).toInt())
-                    preIndex = index
-                    index = 0
-                    Single.just(oldMap).delay(5, TimeUnit.SECONDS)
-                }
-                else -> {
-                    oldMap[0] = string
-                    oldMap[2] =
-                        calculateApi.writeThird(string.toInt(), (oldMap[1] ?: error("0")).toInt())
-                    index = 0
-                    Single.just(oldMap).delay(5, TimeUnit.SECONDS)
-                }
+
+    private fun getField(state: MainActivityState): Single<List<String>> {
+        var firstField: Int = state.firstField?.toInt() ?: 0
+        var secondField: Int = state.secondField?.toInt() ?: 0
+        var thirdField: Int = state.thirdField?.toInt() ?: 0
+        var index: Int = state.index
+        var preIndex: Int = state.preIndex
+        var newValue: Int
+        lateinit var list: List<String>
+        if (index == 1) {
+            if (preIndex == 2) {
+                newValue = calculateApi.writeThird(firstField, secondField).toInt()
+                list = listOf<String>(firstField.toString(), secondField.toString(),newValue.toString())
+            } else if (preIndex == 3) {
+                newValue = calculateApi.writeSecond(firstField, thirdField).toInt()
+                list = listOf<String>(firstField.toString(), newValue.toString(),thirdField.toString())
+            } else if (preIndex == -1) {
+                newValue = calculateApi.writeThird(firstField, 0).toInt()
+                list = listOf<String>(firstField.toString(), secondField.toString(),newValue.toString())
+
             }
-//второй элемент
-        } else if (int == 1) {
-            oldMap[1] = string
-            return when (index){
-                1 -> {
-                    if (preIndex == 2){
-                        oldMap[0] =
-                            calculateApi.writeFirst(string.toInt(), (oldMap[2] ?: error("0")).toInt())
-                    } else {
-                        oldMap[2] =
-                            calculateApi.writeThird(string.toInt(), (oldMap[1] ?: error("0")).toInt())
-                    }
-                    Single.just(oldMap).delay(5, TimeUnit.SECONDS)
-                }
-                2 -> {
-                    oldMap[0] =
-                        calculateApi.writeFirst(string.toInt(), (oldMap[2] ?: error("0")).toInt())
-                    preIndex = index
-                    index = 1
-                    Single.just(oldMap).delay(5, TimeUnit.SECONDS)
-                }
-                0 -> {
-                    oldMap[2] =
-                        calculateApi.writeThird(string.toInt(), (oldMap[1] ?: error("0")).toInt())
-                    preIndex = index
-                    index = 1
-                    Single.just(oldMap).delay(5, TimeUnit.SECONDS)
-                }
-                else -> {
-                    oldMap[1] = string
-                    oldMap[2] =
-                        calculateApi.writeThird(string.toInt(), (oldMap[1] ?: error("0")).toInt())
-                    index = 1
-                    Single.just(oldMap).delay(5, TimeUnit.SECONDS)
-                }
+        } else if (index == 2) {
+            if (preIndex == 1) {
+                newValue = calculateApi.writeThird(firstField, secondField).toInt()
+                list = listOf<String>(firstField.toString(), secondField.toString(),newValue.toString())
+            } else if (preIndex == 3) {
+                newValue = calculateApi.writeFirst(secondField, thirdField).toInt()
+                list = listOf<String>(newValue.toString(), secondField.toString(),thirdField.toString())
+            } else if (preIndex == -1) {
+                newValue = calculateApi.writeThird(0, secondField).toInt()
+                list = listOf<String>(firstField.toString(), secondField.toString(),newValue.toString())
             }
         } else {
-            oldMap[2] = string
-            return when (index){
-                2 -> {
-                    if (preIndex == 0){
-                        oldMap[1] =
-                            calculateApi.writeSecond(string.toInt(), (oldMap[2] ?: error("0")).toInt())
-                    } else {
-                        oldMap[0] =
-                            calculateApi.writeFirst(string.toInt(), (oldMap[2] ?: error("0")).toInt())
-                    }
-                    Single.just(oldMap).delay(5, TimeUnit.SECONDS)
-                }
-                0 -> {
-                    oldMap[1] =
-                        calculateApi.writeSecond(string.toInt(), (oldMap[2] ?: error("0")).toInt())
-                    preIndex = index
-                    index = 2
-                    Single.just(oldMap).delay(5, TimeUnit.SECONDS)
-                }
-                1 -> {
-                    oldMap[0] =
-                        calculateApi.writeFirst(string.toInt(), (oldMap[2] ?: error("0")).toInt())
-                    preIndex = index
-                    index = 2
-                    Single.just(oldMap).delay(5, TimeUnit.SECONDS)
-                }
-                else -> {
-                    oldMap[2] = string
-                    oldMap[1] =
-                        calculateApi.writeFirst(string.toInt(), (oldMap[2] ?: error("0")).toInt())
-                    index = 2
-                    Single.just(oldMap).delay(5, TimeUnit.SECONDS)
-                }
+            if (preIndex == 1) {
+                newValue = calculateApi.writeSecond(firstField, thirdField).toInt()
+                list = listOf<String>(firstField.toString(), newValue.toString(),thirdField.toString())
+            } else if (preIndex == 2) {
+                newValue = calculateApi.writeFirst(secondField, thirdField).toInt()
+                list = listOf<String>(newValue.toString(), secondField.toString(),thirdField.toString())
+            } else if (preIndex == -1) {
+                newValue = calculateApi.writeFirst(0, thirdField).toInt()
+                list = listOf<String>(newValue.toString(), secondField.toString(),thirdField.toString())
             }
         }
+        return Single.just(list).delay(5, TimeUnit.SECONDS)
     }
 }
+

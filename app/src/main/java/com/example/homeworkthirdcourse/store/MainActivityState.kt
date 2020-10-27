@@ -2,7 +2,9 @@ package com.example.homeworkthirdcourse.store
 
 data class MainActivityState (
     val isCalculateLoading: Boolean = false,
-    val firstField: String? = null,
-    val secondField: String? = null,
-    val thirdField: String? = null
+    var firstField: String? = null,
+    var secondField: String? = null,
+    var thirdField: String? = null,
+    var index: Int = -1,
+    var preIndex: Int = -1
 )
