@@ -4,38 +4,36 @@
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
-            android:id="@+id/tv_hello"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:id="@+id/constraint"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintTop_toTopOf="@id/relative"/>
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
-            android:id="@+id/tv_hello"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/constraint"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/relative"/>
     </ConstraintSet>
 
     <Transition
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start" >
         <OnSwipe
-            app:touchAnchorId="@id/tv_hello"
+            app:touchAnchorId="@id/constraint"
             app:touchAnchorSide="left"
-            app:dragDirection="dragRight"/>
-
+            app:dragDirection="dragRight"
+            app:touchRegionId="@id/constraint"/>
         <KeyFrameSet>
             <KeyPosition
-            app:keyPositionType="parentRelative"
-            app:percentY="0.25"
-            app:framePosition="50"
-            app:motionTarget="@id/tv_hello" />
+                app:keyPositionType="parentRelative"
+                app:percentY="0.25"
+                app:framePosition="50"
+                app:motionTarget="@id/constraint" />
         </KeyFrameSet>
     </Transition>
 </MotionScene>
