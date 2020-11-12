@@ -3,37 +3,219 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/start">
+
         <Constraint
-            android:id="@+id/constraint"
+            android:id="@+id/editText1"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimary"
-            app:layout_constraintTop_toTopOf="@id/relative"/>
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="22dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAlignment="textEnd"
+            android:textSize="24sp" />
+
+        <Constraint
+            android:id="@+id/buttonLog"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:text="log"
+            android:textSize="32sp"
+            android:paddingVertical="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/buttonSin"
+            app:layout_constraintTop_toBottomOf="@id/editText1"/>
+
+        <Constraint
+            android:id="@+id/buttonSin"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingVertical="8dp"
+            android:background="@android:color/transparent"
+            android:text="sin"
+            android:textSize="32sp"
+            app:layout_constraintStart_toEndOf="@id/buttonLog"
+            app:layout_constraintEnd_toStartOf="@id/buttonCos"
+            app:layout_constraintTop_toBottomOf="@id/editText1"/>
+
+        <Constraint
+            android:id="@+id/buttonCos"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingVertical="8dp"
+            android:background="@android:color/transparent"
+            android:text="cos"
+            android:textSize="32sp"
+            app:layout_constraintStart_toEndOf="@id/buttonSin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editText1"/>
+
+        <Constraint
+            android:id="@+id/button7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="@string/_7"
+            android:paddingVertical="8dp"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button8"
+            app:layout_constraintTop_toBottomOf="@id/swipeLine"/>
+
+        <Constraint
+            android:id="@+id/button8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:background="@android:color/transparent"
+            android:text="@string/_8"
+            android:textSize="32sp"
+            app:layout_constraintStart_toEndOf="@id/button7"
+            app:layout_constraintEnd_toStartOf="@id/button9"
+            app:layout_constraintTop_toBottomOf="@id/swipeLine"/>
+
+        <Constraint
+            android:id="@+id/button9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:background="@android:color/transparent"
+            android:text="@string/_9"
+            android:textSize="32sp"
+            app:layout_constraintStart_toEndOf="@id/button8"
+            app:layout_constraintEnd_toStartOf="@id/buttonAdd"
+            app:layout_constraintTop_toBottomOf="@id/swipeLine"/>
+
+        <Constraint
+            android:id="@+id/buttonAdd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingVertical="8dp"
+            android:background="@android:color/transparent"
+            android:text="@string/plus"
+            android:textSize="32sp"
+            app:layout_constraintStart_toEndOf="@id/button9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/swipeLine"/>
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
+
         <Constraint
-            android:id="@+id/constraint"
+            android:id="@id/editText1"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimary"
-            app:layout_constraintBottom_toTopOf="@id/relative"/>
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/buttonLog"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="22dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAlignment="textEnd"
+            android:textSize="24sp" />
+
+        <Constraint
+            android:id="@id/buttonLog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="log"
+            android:textSize="32sp"
+            android:paddingVertical="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/buttonSin"
+            app:layout_constraintTop_toBottomOf="@id/swipeLineDividerBottom"/>
+
+        <Constraint
+            android:id="@id/buttonSin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:background="@android:color/transparent"
+            android:text="sin"
+            android:textSize="32sp"
+            app:layout_constraintStart_toEndOf="@id/buttonLog"
+            app:layout_constraintEnd_toStartOf="@id/buttonCos"
+            app:layout_constraintTop_toBottomOf="@id/swipeLineDividerBottom"/>
+
+        <Constraint
+            android:id="@id/buttonCos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:background="@android:color/transparent"
+            android:text="cos"
+            android:textSize="32sp"
+            app:layout_constraintStart_toEndOf="@id/buttonSin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/swipeLineDividerBottom"/>
+
+        <Constraint
+            android:id="@+id/button7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="@string/_7"
+            android:paddingVertical="8dp"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button8"
+            app:layout_constraintTop_toBottomOf="@id/buttonLog"/>
+
+        <Constraint
+            android:id="@+id/button8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:background="@android:color/transparent"
+            android:text="@string/_8"
+            android:textSize="32sp"
+            app:layout_constraintStart_toEndOf="@id/button7"
+            app:layout_constraintEnd_toStartOf="@id/button9"
+            app:layout_constraintTop_toBottomOf="@id/buttonLog"/>
+
+        <Constraint
+            android:id="@+id/button9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:background="@android:color/transparent"
+            android:text="@string/_9"
+            android:textSize="32sp"
+            app:layout_constraintStart_toEndOf="@id/button8"
+            app:layout_constraintEnd_toStartOf="@id/buttonAdd"
+            app:layout_constraintTop_toBottomOf="@id/buttonLog"/>
+
+        <Constraint
+            android:id="@+id/buttonAdd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingVertical="8dp"
+            android:background="@android:color/transparent"
+            android:text="@string/plus"
+            android:textSize="32sp"
+            app:layout_constraintStart_toEndOf="@id/button9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonLog"/>
     </ConstraintSet>
 
     <Transition
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start" >
         <OnSwipe
-            app:touchAnchorId="@id/constraint"
+            app:touchAnchorId="@id/swipeLine"
             app:touchAnchorSide="left"
-            app:dragDirection="dragRight"
-            app:touchRegionId="@id/constraint"/>
+            app:dragDirection="dragUp"
+            app:touchRegionId="@id/swipeLine"/>
         <KeyFrameSet>
             <KeyPosition
                 app:keyPositionType="parentRelative"
                 app:percentY="0.25"
                 app:framePosition="50"
-                app:motionTarget="@id/constraint" />
+                app:motionTarget="@id/swipeLine" />
         </KeyFrameSet>
     </Transition>
 </MotionScene>
